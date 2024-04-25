@@ -1,4 +1,4 @@
-function DataTable({ data, usdToClp }) {
+function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
   const formatAmount = (amount, currency) => {
     if (currency === "USD") {
       const convertedAmount = (amount * usdToClp).toLocaleString();
@@ -7,11 +7,22 @@ function DataTable({ data, usdToClp }) {
     return `${amount.toLocaleString()} CLP`;
   };
 
+  const handleRowSelect = (id) => {
+    console.log("Current selected row:", selectedRow);
+    console.log("Row clicked:", id);
+    if (selectedRow === id) {
+      setSelectedRow(null);
+    } else {
+      setSelectedRow(id);
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full table-auto">
         <thead className="bg-gray-800 text-white">
           <tr>
+            <th className="px-4 py-2"></th>
             <th className="px-4 py-2">ID</th>
             <th className="px-4 py-2">Amount</th>
             <th className="px-4 py-2">Type</th>
@@ -20,6 +31,15 @@ function DataTable({ data, usdToClp }) {
         <tbody>
           {data.map((item) => (
             <tr key={item.id} className="text-center bg-gray-100 border-b">
+              <td className="px-4 py-2">
+                <input
+                  type="radio"
+                  name="selectRow"
+                  value={item.id}
+                  checked={selectedRow === item.id}
+                  onClick={() => handleRowSelect(item.id)}
+                />
+              </td>
               <td className="px-4 py-2">
                 {item.id} ({item.organization_id})
               </td>

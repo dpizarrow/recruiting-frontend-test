@@ -5,6 +5,7 @@ import DataTable from "./components/DataTable";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [creditNotes, setCreditNotes] = useState([]);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   useEffect(() => {
     apiClient
@@ -16,9 +17,6 @@ function App() {
       });
   }, []);
 
-  console.log("invoices", invoices);
-  console.log("creditNotes", creditNotes);
-
   const usdToClp = 949; // This is a mock value, we could fetch the real value from an API
 
   return (
@@ -27,7 +25,12 @@ function App() {
         Selecciona una factura
       </h1>
       <div className="px-8 pt-6 pb-8 mb-4">
-        <DataTable data={invoices} usdToClp={usdToClp} />
+        <DataTable
+          data={invoices}
+          usdToClp={usdToClp}
+          selectedRow={selectedInvoice}
+          setSelectedRow={setSelectedInvoice}
+        />
       </div>
     </div>
   );
