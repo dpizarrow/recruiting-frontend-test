@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import apiClient from "./api/apiClient";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    apiClient
+      .get("/invoices/pending")
+      .then((response) => response.data)
+      .then((data) => {
+        setData(data);
+      });
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto">
+      <h1 className="text-4xl font-bold text-center mt-10">Hello World</h1>
+      {JSON.stringify(data, null, 2)}
     </div>
   );
 }
