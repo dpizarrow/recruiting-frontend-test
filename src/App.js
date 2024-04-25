@@ -19,6 +19,12 @@ function App() {
 
   const usdToClp = 949; // This is a mock value, we could fetch the real value from an API
 
+  // Filter credit notes that belong to the selected invoice
+
+  const relatedCreditNotes = creditNotes.filter(
+    (creditNote) => creditNote.reference === selectedInvoice
+  );
+
   return (
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold text-center py-8">
@@ -32,6 +38,19 @@ function App() {
           setSelectedRow={setSelectedInvoice}
         />
       </div>
+      {selectedInvoice && (
+        <div className="px-8 pt-6 pb-8 mb-4">
+          <h2 className="text-xl font-bold text-center py-4">
+            Selecciona una nota de crédito
+          </h2>
+          <DataTable
+            data={relatedCreditNotes}
+            usdToClp={usdToClp}
+            selectedRow={null}
+            setSelectedRow={() => {}}
+          />
+        </div>
+      )}
     </div>
   );
 }
