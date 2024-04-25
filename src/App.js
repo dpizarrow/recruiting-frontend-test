@@ -7,7 +7,7 @@ function App() {
   const [invoices, setInvoices] = useState([]);
   const [creditNotes, setCreditNotes] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
-  const [selectedCreditNote, setSelectedCreditNote] = useState(null);
+  const [selectedCreditNote, setSelectedCreditNote] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedInvoice(null);
-    setSelectedCreditNote(null);
+    setSelectedCreditNote([]);
   };
 
   const handleAssign = () => {
@@ -62,15 +62,18 @@ function App() {
             usdToClp={usdToClp}
             selectedRow={selectedCreditNote}
             setSelectedRow={setSelectedCreditNote}
+            multipleSelect={true}
           />
-          {selectedCreditNote && relatedCreditNotes.length > 0 && (
-            <button
-              className="block mx-auto mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleAssign}
-            >
-              Asignar
-            </button>
-          )}
+          {selectedCreditNote &&
+            relatedCreditNotes.length > 0 &&
+            selectedCreditNote.length > 0 && (
+              <button
+                className="block mx-auto mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleAssign}
+              >
+                Asignar
+              </button>
+            )}
         </div>
       )}
       <SuccessModal isOpen={isModalOpen} onClose={handleModalClose} />

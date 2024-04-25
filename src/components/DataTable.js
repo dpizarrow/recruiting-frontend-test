@@ -1,4 +1,10 @@
-function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
+function DataTable({
+  data,
+  usdToClp,
+  selectedRow,
+  setSelectedRow,
+  multipleSelect,
+}) {
   const formatAmount = (amount, currency) => {
     if (currency === "USD") {
       const convertedAmount = (amount * usdToClp).toLocaleString();
@@ -10,10 +16,19 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
   };
 
   const handleRowSelect = (id) => {
-    if (selectedRow === id) {
-      setSelectedRow(null);
+    if (multipleSelect) {
+      const isSelected = selectedRow.includes(id);
+      if (isSelected) {
+        setSelectedRow(selectedRow.filter((rowId) => rowId !== id));
+      } else {
+        setSelectedRow([...selectedRow, id]);
+      }
     } else {
-      setSelectedRow(id);
+      if (selectedRow === id) {
+        setSelectedRow(null);
+      } else {
+        setSelectedRow(id);
+      }
     }
   };
 
@@ -32,15 +47,23 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
               <tr
                 key={item.id}
                 className={`text-center bg-gray-100 border-b ${
-                  selectedRow === item.id ? "bg-violet-100 text-indigo-700" : ""
+                  multipleSelect && selectedRow.includes(item.id)
+                    ? "bg-violet-100 text-indigo-700"
+                    : selectedRow === item.id
+                    ? "bg-violet-100 text-indigo-700"
+                    : ""
                 }`}
               >
                 <td className="px-4 py-2">
                   <input
                     type="radio"
-                    name={item.id}
+                    name={multipleSelect ? item.id : "radio"}
                     value={item.id}
-                    checked={selectedRow === item.id}
+                    checked={
+                      multipleSelect
+                        ? selectedRow.includes(item.id)
+                        : selectedRow === item.id
+                    }
                     onClick={() => handleRowSelect(item.id)}
                     className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                   />
