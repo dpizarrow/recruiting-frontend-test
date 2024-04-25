@@ -2,9 +2,11 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
   const formatAmount = (amount, currency) => {
     if (currency === "USD") {
       const convertedAmount = (amount * usdToClp).toLocaleString();
-      return `${convertedAmount} CLP ($${amount.toLocaleString()} USD)`;
+      return `$${convertedAmount} CLP ($${amount.toLocaleString()} USD)`;
+    } else {
+      const convertedAmount = (amount / usdToClp).toLocaleString();
+      return `$${amount.toLocaleString()} CLP ($${convertedAmount} USD)`;
     }
-    return `${amount.toLocaleString()} CLP`;
   };
 
   const handleRowSelect = (id) => {
@@ -23,8 +25,8 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
     );
   } else {
     return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto">
+      <div className="overflow-x-auto rounded-lg">
+        <table className="min-w-full table-auto rounded-lg">
           <tbody>
             {data.map((item) => (
               <tr
