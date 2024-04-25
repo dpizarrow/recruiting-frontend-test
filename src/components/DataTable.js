@@ -3,23 +3,23 @@ import formatAmount from "../lib/formatAmount";
 function DataTable({
   data,
   usdToClp,
-  selectedRow,
-  setSelectedRow,
+  selectedRows,
+  setSelectedRows,
   multipleSelect,
 }) {
   const handleRowSelect = (id) => {
     if (multipleSelect) {
-      const isSelected = selectedRow.includes(id);
+      const isSelected = selectedRows.includes(id);
       if (isSelected) {
-        setSelectedRow(selectedRow.filter((rowId) => rowId !== id));
+        setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
       } else {
-        setSelectedRow([...selectedRow, id]);
+        setSelectedRows([...selectedRows, id]);
       }
     } else {
-      if (selectedRow === id) {
-        setSelectedRow(null);
+      if (selectedRows === id) {
+        setSelectedRows(null);
       } else {
-        setSelectedRow(id);
+        setSelectedRows(id);
       }
     }
   };
@@ -39,9 +39,9 @@ function DataTable({
               <tr
                 key={item.id}
                 className={`text-center bg-gray-100 border-b ${
-                  multipleSelect && selectedRow.includes(item.id)
+                  multipleSelect && selectedRows.includes(item.id)
                     ? "bg-violet-100 text-indigo-700"
-                    : selectedRow === item.id
+                    : selectedRows === item.id
                     ? "bg-violet-100 text-indigo-700"
                     : ""
                 }`}
@@ -53,8 +53,8 @@ function DataTable({
                     value={item.id}
                     checked={
                       multipleSelect
-                        ? selectedRow.includes(item.id)
-                        : selectedRow === item.id
+                        ? selectedRows.includes(item.id)
+                        : selectedRows === item.id
                     }
                     onClick={() => handleRowSelect(item.id)}
                     className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"

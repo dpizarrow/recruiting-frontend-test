@@ -7,8 +7,8 @@ import SummaryTable from "./components/SummaryTable";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [creditNotes, setCreditNotes] = useState([]);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
-  const [selectedCreditNote, setSelectedCreditNote] = useState([]);
+  const [selectedInvoices, setSelectedInvoices] = useState(null);
+  const [selectedCreditNotes, setSelectedCreditNotes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -26,13 +26,13 @@ function App() {
   // Filter credit notes that belong to the selected invoice
 
   const relatedCreditNotes = creditNotes.filter(
-    (creditNote) => creditNote.reference === selectedInvoice
+    (creditNote) => creditNote.reference === selectedInvoices
   );
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setSelectedInvoice(null);
-    setSelectedCreditNote([]);
+    setSelectedInvoices(null);
+    setSelectedCreditNotes([]);
   };
 
   const handleAssign = () => {
@@ -49,11 +49,11 @@ function App() {
         <DataTable
           data={invoices}
           usdToClp={usdToClp}
-          selectedRow={selectedInvoice}
-          setSelectedRow={setSelectedInvoice}
+          selectedRows={selectedInvoices}
+          setSelectedRows={setSelectedInvoices}
         />
       </div>
-      {selectedInvoice && (
+      {selectedInvoices && (
         <div className="px-8 pt-6 pb-8 mb-4">
           <h2 className="text-xl font-bold text-center py-4">
             Selecciona una nota de crédito
@@ -61,20 +61,20 @@ function App() {
           <DataTable
             data={relatedCreditNotes}
             usdToClp={usdToClp}
-            selectedRow={selectedCreditNote}
-            setSelectedRow={setSelectedCreditNote}
+            selectedRows={selectedCreditNotes}
+            setSelectedRows={setSelectedCreditNotes}
             multipleSelect={true}
           />
-          {selectedCreditNote &&
+          {selectedCreditNotes &&
             relatedCreditNotes.length > 0 &&
-            selectedCreditNote.length > 0 && (
+            selectedCreditNotes.length > 0 && (
               <div className="px-8 pt-6 pb-8 mb-4">
                 <SummaryTable
                   invoice={invoices.find(
-                    (invoice) => invoice.id === selectedInvoice
+                    (invoice) => invoice.id === selectedInvoices
                   )}
                   creditNotes={relatedCreditNotes.filter((creditNote) =>
-                    selectedCreditNote.includes(creditNote.id)
+                    selectedCreditNotes.includes(creditNote.id)
                   )}
                   usdToClp={usdToClp}
                 />
