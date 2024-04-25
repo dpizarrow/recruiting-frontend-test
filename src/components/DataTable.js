@@ -8,8 +8,6 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
   };
 
   const handleRowSelect = (id) => {
-    console.log("Current selected row:", selectedRow);
-    console.log("Row clicked:", id);
     if (selectedRow === id) {
       setSelectedRow(null);
     } else {
@@ -41,7 +39,7 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
                 <td className="px-4 py-2">
                   <input
                     type="radio"
-                    name="selectRow"
+                    name={item.id}
                     value={item.id}
                     checked={selectedRow === item.id}
                     onClick={() => handleRowSelect(item.id)}

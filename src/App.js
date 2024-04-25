@@ -6,6 +6,7 @@ function App() {
   const [invoices, setInvoices] = useState([]);
   const [creditNotes, setCreditNotes] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [selectedCreditNote, setSelectedCreditNote] = useState(null);
 
   useEffect(() => {
     apiClient
@@ -46,9 +47,14 @@ function App() {
           <DataTable
             data={relatedCreditNotes}
             usdToClp={usdToClp}
-            selectedRow={null}
-            setSelectedRow={() => {}}
+            selectedRow={selectedCreditNote}
+            setSelectedRow={setSelectedCreditNote}
           />
+          {selectedCreditNote && (
+            <button className="block mx-auto mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Asignar
+            </button>
+          )}
         </div>
       )}
     </div>
