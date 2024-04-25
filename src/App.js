@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import apiClient from "./api/apiClient";
 import DataTable from "./components/DataTable";
 import SuccessModal from "./components/SuccessModal";
+import SummaryTable from "./components/SummaryTable";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
@@ -67,12 +68,23 @@ function App() {
           {selectedCreditNote &&
             relatedCreditNotes.length > 0 &&
             selectedCreditNote.length > 0 && (
-              <button
-                className="block mx-auto mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleAssign}
-              >
-                Asignar
-              </button>
+              <div className="px-8 pt-6 pb-8 mb-4">
+                <SummaryTable
+                  invoice={invoices.find(
+                    (invoice) => invoice.id === selectedInvoice
+                  )}
+                  creditNotes={relatedCreditNotes.filter((creditNote) =>
+                    selectedCreditNote.includes(creditNote.id)
+                  )}
+                  usdToClp={usdToClp}
+                />
+                <button
+                  className="block mx-auto mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={handleAssign}
+                >
+                  Asignar
+                </button>
+              </div>
             )}
         </div>
       )}

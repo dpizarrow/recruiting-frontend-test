@@ -1,3 +1,5 @@
+import formatAmount from "../lib/formatAmount";
+
 function DataTable({
   data,
   usdToClp,
@@ -5,16 +7,6 @@ function DataTable({
   setSelectedRow,
   multipleSelect,
 }) {
-  const formatAmount = (amount, currency) => {
-    if (currency === "USD") {
-      const convertedAmount = (amount * usdToClp).toLocaleString();
-      return `$${convertedAmount} CLP ($${amount.toLocaleString()} USD)`;
-    } else {
-      const convertedAmount = (amount / usdToClp).toLocaleString();
-      return `$${amount.toLocaleString()} CLP ($${convertedAmount} USD)`;
-    }
-  };
-
   const handleRowSelect = (id) => {
     if (multipleSelect) {
       const isSelected = selectedRow.includes(id);
@@ -72,7 +64,7 @@ function DataTable({
                   {item.id} ({item.organization_id})
                 </td>
                 <td className="px-4 py-2">
-                  {formatAmount(item.amount, item.currency)}
+                  {formatAmount(item.amount, item.currency, usdToClp)}
                 </td>
                 <td className="px-4 py-2">
                   {item.type === "received" ? "Recibida" : item.reference}
