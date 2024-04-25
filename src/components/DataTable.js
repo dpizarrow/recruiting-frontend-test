@@ -1,4 +1,12 @@
-function DataTable({ data }) {
+function DataTable({ data, usdToClp }) {
+  const formatAmount = (amount, currency) => {
+    if (currency === "USD") {
+      const convertedAmount = (amount * usdToClp).toLocaleString();
+      return `${convertedAmount} CLP ($${amount.toLocaleString()} USD)`;
+    }
+    return `${amount.toLocaleString()} CLP`;
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full table-auto">
@@ -15,7 +23,9 @@ function DataTable({ data }) {
           {data.map((item) => (
             <tr key={item.id} className="text-center bg-gray-100 border-b">
               <td className="px-4 py-2">{item.id}</td>
-              <td className="px-4 py-2">{item.amount.toLocaleString()}</td>
+              <td className="px-4 py-2">
+                {formatAmount(item.amount, item.currency)}
+              </td>
               <td className="px-4 py-2">{item.currency}</td>
               <td className="px-4 py-2">{item.organization_id}</td>
               <td className="px-4 py-2">{item.type}</td>
