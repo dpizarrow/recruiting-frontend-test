@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import apiClient from "./api/apiClient";
 import DataTable from "./components/DataTable";
+import SuccessModal from "./components/SuccessModal";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [creditNotes, setCreditNotes] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [selectedCreditNote, setSelectedCreditNote] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     apiClient
@@ -25,6 +27,17 @@ function App() {
   const relatedCreditNotes = creditNotes.filter(
     (creditNote) => creditNote.reference === selectedInvoice
   );
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedInvoice(null);
+    setSelectedCreditNote(null);
+  };
+
+  const handleAssign = () => {
+    // Here we could make an API call or a mutation to assign the credit note to the invoice
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="container mx-auto">
@@ -51,12 +64,16 @@ function App() {
             setSelectedRow={setSelectedCreditNote}
           />
           {selectedCreditNote && (
-            <button className="block mx-auto mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button
+              className="block mx-auto mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleAssign}
+            >
               Asignar
             </button>
           )}
         </div>
       )}
+      <SuccessModal isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
 }
