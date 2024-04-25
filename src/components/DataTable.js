@@ -43,6 +43,7 @@ function DataTable({ data, usdToClp, selectedRow, setSelectedRow }) {
                     value={item.id}
                     checked={selectedRow === item.id}
                     onClick={() => handleRowSelect(item.id)}
+                    className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                   />
                 </td>
                 <td className="px-4 py-2">
